@@ -43,7 +43,7 @@ def fetch(ents):
 
 def first_row(f_row, num_of_cols):
         row = f_row.capitalize()
-        if row in first_row_options:
+        if row in first_row_options or set(row) == {'0', '1'}:
             row_len = num_of_cols
             if row == 'Default':
                 row = '{}1{}'.format('0'*((row_len-1)//2), '0'*divide(row_len-1, 2))
@@ -51,10 +51,11 @@ def first_row(f_row, num_of_cols):
                 row = '0' * row_len
             elif row == 'Ones':
                 row = '1' * row_len
-            else:
+            elif row == 'Random':
                 row = ''.join([str(random.randint(0, 1)) for i in range(row_len)])
             return row
-        return row
+        elif set(row) == {'0', '1'}:
+            return row
 
 
 def all_rows(f_row, num_of_rows, num_of_cols, outputs):
@@ -122,7 +123,7 @@ if __name__ == '__main__':
     # TKINTER OPTIONS
     first_row_options = ['Default', 'Random', 'Zeros', 'Ones']
     label_names = ['Rule', 'Number of rows', 'Number of columns', 'First row']
-    label_options = {'Rule': list(range(256)), 'First row': first_row_options}
+    label_options = {'Rule': list(range(256)), 'First row': first_row_options + ['Other (type 0s and 1s)']}
 
     master = Tk()
     master.wm_title('Options')
