@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+cellular_automata.py - Takes user inputs from a gui and uses those inputs to creates unique patterns.
+"""
+
 import pygame
 import random
 from datetime import datetime
