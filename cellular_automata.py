@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-cellular_automata.py - Takes user inputs from a gui and uses those inputs to creates unique patterns.
+cellular_automata.py - Takes user inputs from a gui and uses those inputs to create unique patterns.
 """
 
 import pygame
