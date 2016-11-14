@@ -80,7 +80,6 @@ def first_row(f_row, num_of_cols):
             row = '1' * row_len
         elif row == 'Random':
             row = ''.join([str(random.randint(0, 1)) for i in range(row_len)])
-        return row
     return row
 
 
