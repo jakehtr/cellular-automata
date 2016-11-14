@@ -12,12 +12,30 @@ from tkinter.ttk import *
 
 
 def divide(a, b):
-    if a//b < a/b:
-        return a//b + 1
-    return a//b
+    if a // b < a / b:
+        return a // b + 1
+    return a // b
 
 
-def create_gui():
+def gui():
+    master = Tk()
+    master.wm_title('Options')
+    master.columnconfigure(1, weight=1)
+
+    rule_var = IntVar()
+    row_len_var = IntVar()
+    col_len_var = IntVar()
+    first_row_var = StringVar()
+    check_var = IntVar()
+
+    rule_var.set(random.randint(0, 255))
+    row_len_var.set(51)
+    col_len_var.set(101)
+    first_row_var.set(first_row_options[0])
+    check_var.set(0)
+
+    all_vars = [rule_var, row_len_var, col_len_var, first_row_var, check_var]
+
     for item in label_names:
         index = label_names.index(item)
         var = all_vars[index]
@@ -27,7 +45,16 @@ def create_gui():
         else:
             entry = Entry(master, width=25, textvariable=var)
         label.grid(row=index, sticky=W, pady=5, padx=5)
-        entry.grid(row=index, column=1, sticky=N+S+E+W, pady=5, padx=5)
+        entry.grid(row=index, column=1, sticky=N + S + E + W, pady=5, padx=5)
+
+    b1 = Checkbutton(master, text='Save screen shot', variable=check_var, onvalue=1, offvalue=0)
+    b2 = Button(master, text='Go!', command=(lambda e=all_vars: main(e)))
+    b3 = Button(master, text='Quit', command=master.quit)
+    b1.grid(row=4, column=0, sticky=W, pady=5, padx=5, columnspan=2)
+    b2.grid(row=5, column=0, sticky=W, pady=5, padx=5)
+    b3.grid(row=5, column=1, sticky=W, pady=5, padx=5)
+
+    return master
 
 
 def fetch(ents):
@@ -42,27 +69,27 @@ def fetch(ents):
 
 
 def first_row(f_row, num_of_cols):
-        row = f_row.capitalize()
-        if row in first_row_options:
-            row_len = num_of_cols
-            if row == 'Default':
-                row = '{}1{}'.format('0'*((row_len-1)//2), '0'*divide(row_len-1, 2))
-            elif row == 'Zeros':
-                row = '0' * row_len
-            elif row == 'Ones':
-                row = '1' * row_len
-            elif row == 'Random':
-                row = ''.join([str(random.randint(0, 1)) for i in range(row_len)])
-            return row
+    row = f_row.capitalize()
+    if row in first_row_options:
+        row_len = num_of_cols
+        if row == 'Default':
+            row = '{}1{}'.format('0' * ((row_len - 1) // 2), '0' * divide(row_len - 1, 2))
+        elif row == 'Zeros':
+            row = '0' * row_len
+        elif row == 'Ones':
+            row = '1' * row_len
+        elif row == 'Random':
+            row = ''.join([str(random.randint(0, 1)) for i in range(row_len)])
         return row
+    return row
 
 
 def all_rows(f_row, num_of_rows, num_of_cols, outputs):
     row = first_row(f_row, num_of_cols)
     rows = [row]
-    for j in range(num_of_rows-1):
+    for j in range(num_of_rows - 1):
         input_row = '{}{}{}'.format(row[-1], row, row[0])
-        row = ''.join([outputs[inputs.index(input_row[i:i+3])] for i in range(len(input_row)-2)])
+        row = ''.join([outputs[inputs.index(input_row[i:i + 3])] for i in range(len(input_row) - 2)])
         rows.append(row)
     return rows
 
@@ -78,15 +105,15 @@ def main(ents):
     pygame.init()
 
     base_width = base_height = 600
-    window_width = int(base_width * min(len(input_rows[0])/num_of_rows, 1))
-    window_height = int(base_height * min(1, num_of_rows/len(input_rows[0])))
+    window_width = int(base_width * min(len(input_rows[0]) / num_of_rows, 1))
+    window_height = int(base_height * min(1, num_of_rows / len(input_rows[0])))
     window_surface = pygame.display.set_mode((window_width, window_height), 0, 32)
     pygame.display.set_caption('Cellular Automata - Rule {}'.format(rule))
     window_surface.fill(GRAY)
 
     rect_pos_x, rect_pos_y = 0.5, 0.5
-    rect_width = (window_width - rect_pos_x)/len(input_rows[0]) - rect_pos_x
-    rect_height = (window_height - rect_pos_y)/num_of_rows - rect_pos_y
+    rect_width = (window_width - rect_pos_x) / len(input_rows[0]) - rect_pos_x
+    rect_height = (window_height - rect_pos_y) / num_of_rows - rect_pos_y
 
     y = rect_pos_y
     for item in input_rows:
@@ -110,6 +137,7 @@ def main(ents):
                 pygame.quit()
                 return
 
+
 if __name__ == '__main__':
     inputs = ['111', '110', '101', '100', '011', '010', '001', '000']
     error_msg = 'Invalid input. Try again.'
@@ -119,36 +147,9 @@ if __name__ == '__main__':
     GRAY = (50, 50, 50)
     cell_states = {0: WHITE, 1: BLACK}
 
-    # TKINTER OPTIONS
+    # TKINTER GUI OPTIONS
     first_row_options = ['Default', 'Random', 'Zeros', 'Ones']
     label_names = ['Rule', 'Number of rows', 'Number of columns', 'First row']
     label_options = {'Rule': list(range(256)), 'First row': first_row_options + ['Other (type 0s and 1s)']}
 
-    master = Tk()
-    master.wm_title('Options')
-    master.columnconfigure(1, weight=1)
-
-    rule_var = IntVar()
-    row_len_var = IntVar()
-    col_len_var = IntVar()
-    first_row_var = StringVar()
-    check_var = IntVar()
-
-    rule_var.set(random.randint(0, 255))
-    row_len_var.set(51)
-    col_len_var.set(101)
-    first_row_var.set(first_row_options[0])
-    check_var.set(0)
-
-    all_vars = [rule_var, row_len_var, col_len_var, first_row_var, check_var]
-
-    create_gui()
-
-    b1 = Checkbutton(master, text='Save screen shot', variable=check_var, onvalue=1, offvalue=0)
-    b2 = Button(master, text='Go!', command=(lambda e=all_vars: main(e)))
-    b3 = Button(master, text='Quit', command=master.quit)
-    b1.grid(row=4, column=0, sticky=W, pady=5, padx=5, columnspan=2)
-    b2.grid(row=5, column=0, sticky=W, pady=5, padx=5)
-    b3.grid(row=5, column=1, sticky=W, pady=5, padx=5)
-
-    master.mainloop()
+    gui().mainloop()
