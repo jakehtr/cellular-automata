@@ -139,7 +139,6 @@ def main(ents):
 
 if __name__ == '__main__':
     inputs = ['111', '110', '101', '100', '011', '010', '001', '000']
-    error_msg = 'Invalid input. Try again.'
 
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
