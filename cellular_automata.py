@@ -71,15 +71,14 @@ def fetch(ents):
 def first_row(f_row, num_of_cols):
     row = f_row.capitalize()
     if row in first_row_options:
-        row_len = num_of_cols
         if row == 'Default':
-            row = '{}1{}'.format('0' * ((row_len - 1) // 2), '0' * divide(row_len - 1, 2))
+            row = '{}1{}'.format('0' * ((num_of_cols - 1) // 2), '0' * divide(num_of_cols - 1, 2))
         elif row == 'Zeros':
-            row = '0' * row_len
+            row = '0' * num_of_cols
         elif row == 'Ones':
-            row = '1' * row_len
+            row = '1' * num_of_cols
         elif row == 'Random':
-            row = ''.join([str(random.randint(0, 1)) for i in range(row_len)])
+            row = ''.join([str(random.randint(0, 1)) for i in range(num_of_cols)])
     return row
 
 
