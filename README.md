@@ -1,5 +1,5 @@
 # Cellular Automata
-Takes user inputs from a tkinter gui and uses those inputs to create unique patterns (in Pygame).
+Takes user inputs from a tkinter gui and uses those inputs to create unique patterns in Pygame, where each output can be saved as a JPEG.
 
 ## Instructions
 Pre-requisite: You need Python 3+
